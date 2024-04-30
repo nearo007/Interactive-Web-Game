@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pedra Papel Tesoura</title>
+        <style>
+            body {
+                background-color: rgb(9, 2, 31);
+            }
+            button {
+                background-color: rgb(103, 8, 255);
+                color: rgb(212, 255, 230);
+                border: none;
+                font-size: 30px;
+                font-weight: bold;
+                border-radius: 5px;
+                box-shadow: 0 0 5px rgba(8, 12, 218, 0.8);
+                width: 150px;
+                margin: 0 10px 0 10px;
+                transition: opacity 0.2s;
+            }
+            button:hover {
+                opacity: 0.6
+            }
+            button:active {
+                opacity: 1
+            }
+            .titulo {
+                display: inline-block;
+                font-family: Arial;
+                font-size: 40px;
+                font-weight: bold;
+                background-color: rgb(103, 8, 255);
+                color: rgb(212, 255, 230);
+                padding: 10px;
+                border-radius: 5px;
+            }
+            .game {
+                display: flex;
+                margin: auto;
+                flex-direction: column;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="game">
+            <div>
+                <p class="titulo">Pedra Papel Tesoura</p>
+            </div>
+
+            <div>
+                <button onclick="
+                playGame('Pedra');
+                ">
+                    Pedra
+                </button>
+                <button onclick="
+                    playGame('Papel');
+                ">
+                    Papel
+                </button>
+                <button onclick="
+                    playGame('Tesoura');
+                ">
+                    Tesoura
+                </button>
+            </div>
+        </div>
+        
+        <script>
+
+            const score = {
+                wins: 0,
+                losses: 0,
+                ties: 0
+            };
+            let resultado = '';
+            function pickComputerMove() {
+                let computerMove = '';
+
+                const randomNumber = Math.random();
+                if (randomNumber >= 0 && randomNumber < 1/3) {
+                    computerMove = 'Pedra';
+                }
+                else if (randomNumber >= 1/3 && randomNumber < 2/3) {
+                    computerMove = 'Papel';
+                }
+                else {
+                    computerMove = 'Tesoura';
+                }
+                return computerMove;
+            };
+            function playGame(playerMove) {
+                const computerMove = pickComputerMove();
+
+                if (playerMove === 'Pedra') {
+                    if (computerMove === 'Pedra') {
+                        resultado = 'Empate!';
+                        score.ties ++;
+                    }
+                    else if (computerMove === 'Papel') {
+                        resultado = 'Você perdeu!';
+                        score.losses ++;
+                    }
+                    else {
+                        resultado = 'Você ganhou!';
+                        score.wins ++
+                    }
+                }
+
+                else if (playerMove === 'Papel') {
+                    if (computerMove === 'Pedra') {
+                        resultado = 'Você ganhou!';
+                        score.wins ++;
+                    }
+                    else if (computerMove === 'Papel') {
+                        resultado = 'Empate!';
+                        score.ties ++;
+                    }
+                    else {
+                        resultado = 'Você Perdeu!';
+                        score.losses ++;
+                    }
+                }
+
+                else if (playerMove === 'Tesoura') {
+                    if (computerMove === 'Pedra') {
+                        resultado = 'Você perdeu!';
+                        score.losses ++;
+                    }
+                    else if (computerMove === 'Papel') {
+                        resultado = 'Você ganhou!';
+                        score.wins ++;
+                    }
+                    else {
+                        resultado = 'Empate!';
+                        score.ties++;
+                    }
+                }
+                
+                alert(`Você escolheu ${playerMove}, o computador escolheu ${computerMove}. ${resultado}\nVitórias: ${score.wins}, Derrotas: ${score.losses}, Empates: ${score.ties}.`);
+
+            };
+        </script>
+    </body>
+</html>
