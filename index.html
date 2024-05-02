@@ -101,10 +101,11 @@
             document.title = 'Pedra Papel Tesoura';
 
             const resultTextElement = document.querySelector('.result-text');
-            resultTextElement.innerHTML = '...'
+            alterInnerHTML(resultTextElement, '...')
 
             const scoreTextElement = document.querySelector('.score-text');
-            scoreTextElement.innerHTML = `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`;
+
+            alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`);
 
             function playGame(playerMove) {
                 const computerMove = pickComputerMove();
