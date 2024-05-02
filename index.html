@@ -4,7 +4,7 @@
         <title>Pedra Papel Tesoura</title>
         <style>
             body {
-                background-color: rgb(88, 88, 88);
+                background-color: rgb(47, 46, 54);
             }
             button {
                 background-color: rgb(182, 182, 182);
@@ -16,25 +16,33 @@
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
                 padding: 10px 10px 10px 10px;
                 margin: 0 10px 0 10px;
-                transition: opacity 0.2s;
+                transition: opacity 0.2s, border-radius 0.2s;
             }
             button:hover {
-                opacity: 0.6
+                opacity: 0.6;
             }
             button:active {
                 opacity: 1
+            }
+            .button-player-choice button {
+                background-color: rgb(139, 179, 165);
+            }
+            .button-reset {
+                background-color: rgb(161, 91, 91);
             }
             .titulo {
                 display: inline-block;
                 font-family: Arial;
                 font-size: 40px;
                 font-weight: bold;
-                background-color: rgb(182, 182, 182);
+                background-color: rgb(82, 83, 97);
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
                 color: white;
                 padding: 10px;
                 border-radius: 5px;
+                transition: padding 0.2s;
             }
+            .titulo:hover {padding: 12px;}
             .reset {
                 margin: 15px;
             }
@@ -44,6 +52,14 @@
                 flex-direction: column;
                 align-items: center;
             }
+            .score-text, .result-text {
+                font-family: Arial;
+                color: white;
+                background-color: rgb(82, 83, 97);
+                padding: 5px 10px;
+                border-radius: 5px;
+                box-shadow: 0 0 5px rgba(0,0,0,0.8);
+            }
         </style>
     </head>
     <body>
@@ -52,48 +68,52 @@
                 <p class="titulo">Pedra Papel Tesoura</p>
             </div>
 
-            <div>
-                <button onclick="
-                    playGame('Pedra');
-                    console.log(score);
-                ">
+            <div class="button-player-choice">
+                <button onclick="playGame('PEDRA');">
                     Pedra
                 </button>
-                <button onclick="
-                    playGame('Papel');
-                    console.log(score);
-                ">
+                <button onclick="playGame('PAPEL');">
                     Papel
                 </button>
-                <button onclick="
-                    playGame('Tesoura');
-                    console.log(score);
-                ">
+                <button onclick="playGame('TESOURA');">
                     Tesoura
                 </button>
             </div>
 
             <div class="reset">
-                <button onclick="
-                    resetScore();
-                    console.log(score);
-                ">
+                <button class="button-reset" onclick="resetScore();">
                     Reset Score
                 </button>
+            </div>
+
+            <div>
+                <p class="result-text"></p>
+            </div>
+
+            <div>
+                <p class="score-text"></p>
             </div>
         </div>
         
         <script>
             let score = JSON.parse(localStorage.getItem('score')) ||  {wins: 0, losses: 0, ties: 0};
 
+            document.title = 'Pedra Papel Tesoura';
+
+            const resultTextElement = document.querySelector('.result-text');
+            resultTextElement.innerHTML = '...'
+
+            const scoreTextElement = document.querySelector('.score-text');
+            scoreTextElement.innerHTML = `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`;
+
             function playGame(playerMove) {
                 const computerMove = pickComputerMove();
                 let result = '';
-                if (playerMove === 'Pedra') {
-                    if (computerMove === 'Pedra') {
+                if (playerMove === 'PEDRA') {
+                    if (computerMove === 'PEDRA') {
                         result = 'Empate!';
                     }
-                    else if (computerMove === 'Papel') {
+                    else if (computerMove === 'PAPEL') {
                         result = 'Você perdeu!';
                     }
                     else {
@@ -101,11 +121,11 @@
                     }
                 }
 
-                else if (playerMove === 'Papel') {
-                    if (computerMove === 'Pedra') {
+                else if (playerMove === 'PAPEL') {
+                    if (computerMove === 'PEDRA') {
                         result = 'Você ganhou!';
                     }
-                    else if (computerMove === 'Papel') {
+                    else if (computerMove === 'PAPEL') {
                         result = 'Empate!';
                     }
                     else {
@@ -113,11 +133,11 @@
                     }
                 }
 
-                else if (playerMove === 'Tesoura') {
-                    if (computerMove === 'Pedra') {
+                else if (playerMove === 'TESOURA') {
+                    if (computerMove === 'PEDRA') {
                         result = 'Você perdeu!';
                     }
-                    else if (computerMove === 'Papel') {
+                    else if (computerMove === 'PAPEL') {
                         result = 'Você ganhou!';
                     }
                     else {
@@ -134,23 +154,23 @@
                     score.ties ++;
                 }
                 
+                document.title = `${result}`;
                 localStorage.setItem('score', JSON.stringify(score));
-
-                alert(`Você escolheu ${playerMove}, o computador escolheu ${computerMove}. ${result}\nVitórias: ${score.wins}, Derrotas: ${score.losses}, Empates: ${score.ties}.`);
-
+                alterInnerHTML(resultTextElement, `Você escolheu ${playerMove}, o computador escolheu ${computerMove}. ${result}`);
+                alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`);
             };
 
             function pickComputerMove() {
                 let computerMove = '';
                 const randomNumber = Math.random();
                 if (randomNumber >= 0 && randomNumber < 1/3) {
-                    computerMove = 'Pedra';
+                    computerMove = 'PEDRA';
                 }
                 else if (randomNumber >= 1/3 && randomNumber < 2/3) {
-                    computerMove = 'Papel';
+                    computerMove = 'PAPEL';
                 }
                 else {
-                    computerMove = 'Tesoura';
+                    computerMove = 'TESOURA';
                 }
                 return computerMove;
             };
@@ -158,7 +178,14 @@
                 score.wins = 0;
                 score.losses = 0;
                 score.ties = 0;
+                
+                document.title = 'Pedra Papel Tesoura';
                 localStorage.setItem('score', JSON.stringify(score));
+                alterInnerHTML(resultTextElement, '...');
+                alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`);
+            }
+            function alterInnerHTML(old_content, new_content) {
+                old_content.innerHTML = new_content;
             }
         </script>
     </body>
