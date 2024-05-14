@@ -4,7 +4,7 @@
         <title>Pedra Papel Tesoura</title>
         <style>
             body {
-                background-color: rgb(25, 25, 25);
+                background-color: rgb(15, 17, 37);
                 color: white;
                 font-family: Arial;
             }
@@ -38,7 +38,7 @@
                 margin: 0 10px 0 10px;
                 cursor: pointer;
             }
-            .button-reset {
+            .button-reset, .button-autoplay {
                 color: white;
                 background-color: transparent;
                 border: 2px solid white;
@@ -46,6 +46,13 @@
                 padding: 10px 20px;
                 margin: 50px 0 0 0;
                 font-size: 30px;
+                transition: opacity 0.2s;
+            }
+            .button-reset:hover, .button-autoplay:hover {
+                opacity: 0.5;
+            }
+            .button-reset:active, .button-autoplay:active {
+                opacity: 1;
             }
             .player-result-icon {
                 width: 50px;
@@ -81,9 +88,13 @@
                 </button>
             </div>
 
-            <div class="reset">
+            <div class="buttons">
                 <button class="button-reset" onclick="resetScore();">
                     Reset Score
+                </button>
+
+                <button class="button-autoplay" onclick="autoPlay();">
+                    Auto Play
                 </button>
             </div>
 
@@ -109,6 +120,9 @@
             const scoreTextElement = document.querySelector('.score-text');
 
             alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`);
+
+            let isAutoPlaying = false;
+            let autoPlayTimer;
 
             function playGame(playerMove) {
                 let computerMove = pickComputerMove();
@@ -207,6 +221,18 @@
                 localStorage.setItem('score', JSON.stringify(score));
                 alterInnerHTML(resultTextElement, '...');
                 alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} / Derrotas: ${score.losses} / Empates: ${score.ties}`);
+            }
+            function autoPlay() {
+                if (!isAutoPlaying) {
+                    isAutoPlaying = true;
+                    autoPlayTimer = setInterval(function () {
+                        playGame(pickComputerMove())
+                    }, 1000);
+                }
+                else {
+                    isAutoPlaying = false;                    
+                    clearInterval(autoPlayTimer);
+                }
             }
             function alterInnerHTML(old_content, new_content) {
                 old_content.innerHTML = new_content;
