@@ -30,7 +30,9 @@
             .move-icon:active {
                 opacity: 1;
             }
-            .move-button {
+            .rock-button,
+            .paper-button,
+            .scissors-button {
                 background-color: transparent;
                 border: 2px solid white;
                 padding: 40px;
@@ -77,13 +79,13 @@
             </div>
 
             <div class="button-player-choice">
-                <button class="move-button" onclick="playGame('PEDRA');">
+                <button class="rock-button">
                     <img  class="move-icon" src="images/rock-emoji.png">
                 </button>
-                <button class="move-button" onclick="playGame('PAPEL');">
+                <button class="paper-button">
                     <img  class="move-icon" src="images/paper-emoji.png">
                 </button>
-                <button class="move-button" onclick="playGame('TESOURA');">
+                <button class="scissors-button">
                     <img  class="move-icon" src="images/scissors-emoji.png">
                 </button>
             </div>
@@ -123,6 +125,15 @@
 
             let isAutoPlaying = false;
             let autoPlayTimer;
+
+            const rockButton = document.querySelector('.rock-button');
+            rockButton.addEventListener('click', () => {playGame('PEDRA')});
+
+            const paperButton = document.querySelector('.paper-button');
+            paperButton.addEventListener('click', () => {playGame('PAPEL')});
+            
+            const scissorsButton = document.querySelector('.scissors-button');
+            scissorsButton.addEventListener('click', () => {playGame('TESOURA')});
 
             function playGame(playerMove) {
                 let computerMove = pickComputerMove();
@@ -227,7 +238,7 @@
                     isAutoPlaying = true;
                     autoPlayTimer = setInterval(function () {
                         playGame(pickComputerMove())
-                    }, 1000);
+                    }, 500);
                 }
                 else {
                     isAutoPlaying = false;                    
