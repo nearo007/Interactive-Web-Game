@@ -9,7 +9,7 @@
             }
             .background-div {
                 background-color: black;
-                background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgb(51, 0, 85));
+                background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgb(50, 0, 85));
                 position: fixed;
                 left: 0;
                 right: 0;
@@ -53,7 +53,7 @@
                 margin: 0 10px 0 10px;
                 cursor: pointer;
             }
-            .button-reset, .button-autoplay {
+            .button-reset, .button-autoplay, .button-speed {
                 color: white;
                 background-color: transparent;
                 border: 2px solid white;
@@ -63,10 +63,14 @@
                 font-size: 30px;
                 transition: opacity 0.2s;
             }
-            .button-reset:hover, .button-autoplay:hover {
+            .button-reset:hover,
+            .button-autoplay:hover,
+            .button-speed:hover {
                 opacity: 0.5;
             }
-            .button-reset:active, .button-autoplay:active {
+            .button-reset:active,
+            .button-autoplay:active,
+            .button-speed:active {
                 opacity: 1;
             }
             .player-result-icon {
@@ -112,6 +116,10 @@
                 <button class="button-autoplay" onclick="autoPlay();">
                     Auto Play
                 </button>
+
+                <button class="button-speed" onclick="changeSpeed();">
+                    1X
+                </button>
             </div>
 
             <div class="score-result">
@@ -139,6 +147,7 @@
 
             let isAutoPlaying = false;
             let autoPlayTimer;
+            let autoPlaySpeed = 1;
 
             const rockButton = document.querySelector('.rock-button');
             rockButton.addEventListener('click', () => {playGame('PEDRA')});
@@ -252,11 +261,28 @@
                     isAutoPlaying = true;
                     autoPlayTimer = setInterval(function () {
                         playGame(pickComputerMove())
-                    }, 500);
+                    }, (1000 / autoPlaySpeed));
                 }
                 else {
                     isAutoPlaying = false;                    
                     clearInterval(autoPlayTimer);
+                }
+            }
+            function changeSpeed() {
+                const buttonValue = document.querySelector('.button-speed');
+                if (autoPlaySpeed !== 8) {
+                    autoPlaySpeed *= 2;
+                    buttonValue.innerHTML = `${autoPlaySpeed}X`;
+                }
+                else {
+                    autoPlaySpeed = 1;
+                    buttonValue.innerHTML = `${autoPlaySpeed}X`;
+                }
+                if (isAutoPlaying) {
+                    clearInterval(autoPlayTimer);
+                    autoPlayTimer = setInterval(function () {
+                        playGame(pickComputerMove())
+                    }, (1000 / autoPlaySpeed));
                 }
             }
             function alterInnerHTML(old_content, new_content) {
