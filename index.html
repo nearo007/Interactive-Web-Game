@@ -43,9 +43,9 @@
             .move-icon:active {
                 opacity: 1;
             }
-            .rock-button,
-            .paper-button,
-            .scissors-button {
+            .button-rock,
+            .button-paper,
+            .button-scissors {
                 background-color: transparent;
                 border: 2px solid white;
                 padding: 40px;
@@ -97,27 +97,27 @@
             </div>
 
             <div class="button-player-choice">
-                <button class="rock-button">
+                <button class="button-rock">
                     <img  class="move-icon" src="images/rock-emoji.png">
                 </button>
-                <button class="paper-button">
+                <button class="button-paper">
                     <img  class="move-icon" src="images/paper-emoji.png">
                 </button>
-                <button class="scissors-button">
+                <button class="button-scissors">
                     <img  class="move-icon" src="images/scissors-emoji.png">
                 </button>
             </div>
 
             <div class="buttons">
-                <button class="button-reset" onclick="resetScore();">
+                <button class="button-reset">
                     Reset Score
                 </button>
 
-                <button class="button-autoplay" onclick="autoPlay();">
+                <button class="button-autoplay">
                     Auto Play
                 </button>
 
-                <button class="button-speed" onclick="changeSpeed();">
+                <button class="button-speed">
                     1X
                 </button>
             </div>
@@ -149,14 +149,23 @@
             let autoPlayTimer;
             let autoPlaySpeed = 1;
 
-            const rockButton = document.querySelector('.rock-button');
+            const rockButton = document.querySelector('.button-rock');
             rockButton.addEventListener('click', () => {playGame('PEDRA')});
 
-            const paperButton = document.querySelector('.paper-button');
+            const paperButton = document.querySelector('.button-paper');
             paperButton.addEventListener('click', () => {playGame('PAPEL')});
             
-            const scissorsButton = document.querySelector('.scissors-button');
+            const scissorsButton = document.querySelector('.button-scissors');
             scissorsButton.addEventListener('click', () => {playGame('TESOURA')});
+
+            const resetButton = document.querySelector('.button-reset');
+            resetButton.addEventListener('click', () => {resetScore()});
+
+            const autoPlayButton = document.querySelector('.button-autoplay');
+            autoPlayButton.addEventListener('click', () => {autoPlay()});
+
+            const speedButton = document.querySelector('.button-speed');
+            speedButton.addEventListener('click', () => {changeSpeed()})
 
             function playGame(playerMove) {
                 let computerMove = pickComputerMove();
