@@ -145,9 +145,12 @@
 
             alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`);
 
+            let backgroundSelect = JSON.parse(localStorage.getItem('backgroundSelect')) || 0;
             let isAutoPlaying = false;
             let autoPlayTimer;
             let autoPlaySpeed = 1;
+
+            changeBackground();
 
             const rockButton = document.querySelector('.button-rock');
             rockButton.addEventListener('click', () => {playGame('PEDRA')});
@@ -166,6 +169,39 @@
 
             const speedButton = document.querySelector('.button-speed');
             speedButton.addEventListener('click', () => {changeSpeed()})
+
+            document.body.addEventListener('keydown', (event) => {
+                console.log(event.key);
+                if (event.key === '1') {
+                    playGame('PEDRA');
+                }
+                else if (event.key === '2') {
+                    playGame('PAPEL');
+                }
+                else if (event.key === '3') {
+                    playGame('TESOURA');
+                }
+                else if (event.key === 'Backspace') {
+                    resetScore();
+                }
+                else if (event.key === 'Shift') {
+                    changeSpeed();
+                }
+                else if (event.key === 'Enter') {
+                    autoPlay();
+                }
+                else if (event.key === 'b') {
+                    if (backgroundSelect !== 3) {
+                        backgroundSelect ++;
+                    }
+                    else {
+                        backgroundSelect = 0;
+                    }
+                    localStorage.setItem('backgroundSelect', JSON.stringify(backgroundSelect));
+                    changeBackground();
+                }
+            });
+
 
             function playGame(playerMove) {
                 let computerMove = pickComputerMove();
@@ -294,9 +330,33 @@
                     }, (1000 / autoPlaySpeed));
                 }
             }
+
+            function changeBackground() {
+                if (backgroundSelect === 0) {
+                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(50, 0, 85));');
+                }
+                else if (backgroundSelect === 1) {
+                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(0, 40, 100));');
+                }
+                else if (backgroundSelect === 2) {
+                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(80, 30, 30));');
+                }
+                else if (backgroundSelect === 3) {
+                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(30, 80, 30));');
+                }
+                
+            }
+
             function alterInnerHTML(old_content, new_content) {
                 old_content.innerHTML = new_content;
             }
+
+            function changeCSS(className, property, value) {
+                const style = document.createElement('style');
+                style.innerHTML = `.${className} { ${property}: ${value}; }`;
+                document.head.appendChild(style);
+            }
+
         </script>
     </body>
 </html>
