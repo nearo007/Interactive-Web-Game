@@ -16,6 +16,19 @@
                 top: 0;
                 bottom: 0;
             }
+            .button-background {
+                position: fixed;
+                left: 0;
+                top: 0;
+                color: white;
+                background-color: transparent;
+                border: 2px solid white;
+                border-radius: 10px;
+                padding: 10px 10px;
+                margin: 15px 5px;
+                font-size: 25px;
+                transition: opacity 0.2s;
+            }
             .game {
                 display: flex;
                 flex-direction: column;
@@ -53,7 +66,9 @@
                 margin: 0 10px 0 10px;
                 cursor: pointer;
             }
-            .button-reset, .button-autoplay, .button-speed {
+            .button-reset,
+            .button-autoplay,
+            .button-speed {
                 color: white;
                 background-color: transparent;
                 border: 2px solid white;
@@ -65,12 +80,14 @@
             }
             .button-reset:hover,
             .button-autoplay:hover,
-            .button-speed:hover {
+            .button-speed:hover,
+            .button-background:hover {
                 opacity: 0.5;
             }
             .button-reset:active,
             .button-autoplay:active,
-            .button-speed:active {
+            .button-speed:active,
+            .button-background:active {
                 opacity: 1;
             }
             .player-result-icon {
@@ -132,6 +149,10 @@
                 </div>
             </div>
         </div>
+                
+        <button class="button-background">
+            Background
+        </button>
         
         <script>
             let score = JSON.parse(localStorage.getItem('score')) ||  {wins: 0, losses: 0, ties: 0};
@@ -169,6 +190,18 @@
 
             const speedButton = document.querySelector('.button-speed');
             speedButton.addEventListener('click', () => {changeSpeed()})
+
+            const backgroundButton = document.querySelector('.button-background');
+            backgroundButton.addEventListener('click', () => {
+                if (backgroundSelect !== 3) {
+                        backgroundSelect ++;
+                }
+                else {
+                    backgroundSelect = 0;
+                }
+                localStorage.setItem('backgroundSelect', JSON.stringify(backgroundSelect));
+                changeBackground();
+            })
 
             document.body.addEventListener('keydown', (event) => {
                 console.log(event.key);
@@ -344,7 +377,6 @@
                 else if (backgroundSelect === 3) {
                     changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(30, 80, 30));');
                 }
-                
             }
 
             function alterInnerHTML(old_content, new_content) {
