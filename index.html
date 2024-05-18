@@ -9,12 +9,41 @@
             }
             .background-div {
                 background-color: black;
-                background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgb(50, 0, 85));
+                background-image: linear-gradient(to bottom, rgb(0, 0, 0), transparent);
                 position: fixed;
                 left: 0;
                 right: 0;
                 top: 0;
                 bottom: 0;
+            }
+            @keyframes rgb-animation {
+                0% {
+                    background-color: rgb(130, 0, 95);
+                }
+                12.5% {
+                    background-color: rgb(87, 0, 130);
+                }
+                25% {
+                    background-color: rgb(0, 0, 130);
+                }
+                37.5% {
+                    background-color: rgb(0, 95, 130);
+                }
+                50% {
+                    background-color: rgb(0, 130, 130);
+                }
+                62.5% {
+                    background-color: rgb(0, 130, 52);
+                }
+                75% {
+                    background-color: rgb(0, 130, 0);
+                }
+                87.5% {
+                    background-color: rgb(130, 130, 0);
+                }
+                100% {
+                    background-color: rgb(130, 0, 95);
+                }
             }
             .button-background {
                 position: fixed;
@@ -107,6 +136,8 @@
         </style>
     </head>
     <body>
+        <audio id="sound-click1" src="sounds/click_default.mp3"></audio>
+
         <div class="background-div"></div>
         <div class="game">
             <div>
@@ -174,26 +205,44 @@
             changeBackground();
 
             const rockButton = document.querySelector('.button-rock');
-            rockButton.addEventListener('click', () => {playGame('PEDRA')});
+            rockButton.addEventListener('click', () => {
+                playGame('PEDRA')
+                playSound('sound-click1');
+            });
 
             const paperButton = document.querySelector('.button-paper');
-            paperButton.addEventListener('click', () => {playGame('PAPEL')});
+            paperButton.addEventListener('click', () => {
+                playGame('PAPEL')
+                playSound('sound-click1');                
+            });
             
             const scissorsButton = document.querySelector('.button-scissors');
-            scissorsButton.addEventListener('click', () => {playGame('TESOURA')});
+            scissorsButton.addEventListener('click', () => {
+                playGame('TESOURA')
+                playSound('sound-click1');
+            });
 
             const resetButton = document.querySelector('.button-reset');
-            resetButton.addEventListener('click', () => {resetScore()});
+            resetButton.addEventListener('click', () => {
+                resetScore()
+                playSound('sound-click1');
+            });
 
             const autoPlayButton = document.querySelector('.button-autoplay');
-            autoPlayButton.addEventListener('click', () => {autoPlay()});
+            autoPlayButton.addEventListener('click', () => {
+                autoPlay()
+                playSound('sound-click1');
+            });
 
             const speedButton = document.querySelector('.button-speed');
-            speedButton.addEventListener('click', () => {changeSpeed()})
+            speedButton.addEventListener('click', () => {
+                changeSpeed()
+                playSound('sound-click1');
+            })
 
             const backgroundButton = document.querySelector('.button-background');
             backgroundButton.addEventListener('click', () => {
-                if (backgroundSelect !== 3) {
+                if (backgroundSelect !== 5) {
                         backgroundSelect ++;
                 }
                 else {
@@ -201,30 +250,37 @@
                 }
                 localStorage.setItem('backgroundSelect', JSON.stringify(backgroundSelect));
                 changeBackground();
+                playSound('sound-click1');
             })
 
             document.body.addEventListener('keydown', (event) => {
                 console.log(event.key);
                 if (event.key === '1') {
                     playGame('PEDRA');
+                    playSound('sound-click1');
                 }
                 else if (event.key === '2') {
                     playGame('PAPEL');
+                    playSound('sound-click1');
                 }
                 else if (event.key === '3') {
                     playGame('TESOURA');
+                    playSound('sound-click1');
                 }
                 else if (event.key === 'Backspace') {
                     resetScore();
+                    playSound('sound-click1');
                 }
                 else if (event.key === 'Shift') {
                     changeSpeed();
+                    playSound('sound-click1');
                 }
                 else if (event.key === 'Enter') {
                     autoPlay();
+                    playSound('sound-click1');
                 }
                 else if (event.key === 'b') {
-                    if (backgroundSelect !== 3) {
+                    if (backgroundSelect !== 5) {
                         backgroundSelect ++;
                     }
                     else {
@@ -232,6 +288,7 @@
                     }
                     localStorage.setItem('backgroundSelect', JSON.stringify(backgroundSelect));
                     changeBackground();
+                    playSound('sound-click1');
                 }
             });
 
@@ -366,16 +423,23 @@
 
             function changeBackground() {
                 if (backgroundSelect === 0) {
-                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(50, 0, 85));');
+                    changeCSS('background-div', 'background-color', 'rgb(87, 0, 130);');
+                    changeCSS('background-div', 'animation', 'none');
                 }
                 else if (backgroundSelect === 1) {
-                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(0, 40, 100));');
+                    changeCSS('background-div', 'background-color', 'rgb(0, 95, 130);');
                 }
                 else if (backgroundSelect === 2) {
-                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(80, 30, 30));');
+                    changeCSS('background-div', 'background-color', 'rgb(130, 0, 95);');
                 }
                 else if (backgroundSelect === 3) {
-                    changeCSS('background-div', 'background-image', 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(30, 80, 30));');
+                    changeCSS('background-div', 'background-color', 'rgb(52, 130, 0);');
+                }
+                else if (backgroundSelect === 4) {
+                    changeCSS('background-div', 'background-color', 'rgb(121, 113, 0);');
+                }
+                else if (backgroundSelect === 5) {
+                    changeCSS('background-div', 'animation', 'rgb-animation 10s linear infinite;');
                 }
             }
 
@@ -388,7 +452,12 @@
                 style.innerHTML = `.${className} { ${property}: ${value}; }`;
                 document.head.appendChild(style);
             }
-
+            function playSound(sound) {
+                const clickSound = document.getElementById(sound);
+                clickSound.volume = 0.2;
+                clickSound.currentTime = 0;
+                clickSound.play();
+            }
         </script>
     </body>
 </html>
