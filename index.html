@@ -7,6 +7,9 @@
                 color: white;
                 font-family: Arial;
             }
+            button {
+                cursor: pointer;
+            }
             .background-div {
                 background-color: black;
                 background-image: linear-gradient(to bottom, rgb(0, 0, 0), transparent);
@@ -106,7 +109,6 @@
                 padding: 40px;
                 border-radius: 50%;
                 margin: 0 10px 0 10px;
-                cursor: pointer;
             }
             .button-reset,
             .button-autoplay,
@@ -123,13 +125,15 @@
             .button-reset:hover,
             .button-autoplay:hover,
             .button-speed:hover,
-            .button-background:hover {
+            .button-background:hover,
+            .button-sound-toggle:hover {
                 opacity: 0.5;
             }
             .button-reset:active,
             .button-autoplay:active,
             .button-speed:active,
-            .button-background:active {
+            .button-background:active,
+            .button-sound-toggle:active {
                 opacity: 1;
             }
             .player-result-icon {
@@ -445,7 +449,9 @@
                     isAutoPlaying = true;
                     autoPlayTimer = setInterval(function () {
                         playGame(pickComputerMove())
+                        playSound('sound-click1');
                     }, (1000 / autoPlaySpeed));
+                    
                 }
                 else {
                     isAutoPlaying = false;                    
@@ -466,6 +472,7 @@
                     clearInterval(autoPlayTimer);
                     autoPlayTimer = setInterval(function () {
                         playGame(pickComputerMove())
+                        playSound('sound-click1');
                     }, (1000 / autoPlaySpeed));
                 }
             }
