@@ -45,10 +45,23 @@
                     background-color: rgb(130, 0, 95);
                 }
             }
-            .button-background {
+            .button-sound-toggle {
                 position: fixed;
                 left: 0;
                 top: 0;
+                color: white;
+                background-color: transparent;
+                border: 2px solid white;
+                border-radius: 10px;
+                padding: 10px 10px;
+                margin: 15px 5px;
+                font-size: 25px;
+                transition: opacity 0.2s;
+            }
+            .button-background {
+                position: fixed;
+                left: 0;
+                top: 60px;
                 color: white;
                 background-color: transparent;
                 border: 2px solid white;
@@ -181,8 +194,12 @@
             </div>
         </div>
                 
+        <button class="button-sound-toggle">
+            SFX: ON
+        </button>
+
         <button class="button-background">
-            Background
+            Purple
         </button>
         
         <script>
@@ -197,11 +214,15 @@
 
             alterInnerHTML(scoreTextElement, `Vitórias: ${score.wins} --- Derrotas: ${score.losses} --- Empates: ${score.ties}`);
 
-            let backgroundSelect = JSON.parse(localStorage.getItem('backgroundSelect')) || 0;
+            let options = JSON.parse(localStorage.getItem('options')) || {background: 0, sound: 0.2};
             let isAutoPlaying = false;
             let autoPlayTimer;
             let autoPlaySpeed = 1;
 
+            if (!options.sound) {document.querySelector('.button-sound-toggle').innerHTML = 'SFX: OFF';};
+
+            const colorNames = ['Purple', 'Blue', 'Pink', 'Green', 'Yellow', 'RGB'];
+            document.querySelector('.button-background').innerHTML = colorNames[options.background];
             changeBackground();
 
             const rockButton = document.querySelector('.button-rock');
@@ -240,17 +261,32 @@
                 playSound('sound-click1');
             })
 
-            const backgroundButton = document.querySelector('.button-background');
-            backgroundButton.addEventListener('click', () => {
-                if (backgroundSelect !== 5) {
-                        backgroundSelect ++;
+            const soundToogleButton = document.querySelector('.button-sound-toggle');
+            soundToogleButton.addEventListener('click', () => {
+                toggleSound();
+                playSound('sound-click1');
+                localStorage.setItem('options', JSON.stringify(options));
+                if (options.sound) {
+                    document.querySelector('.button-sound-toggle').innerHTML = 'SFX: ON';
                 }
                 else {
-                    backgroundSelect = 0;
+                    document.querySelector('.button-sound-toggle').innerHTML = 'SFX: OFF';
                 }
-                localStorage.setItem('backgroundSelect', JSON.stringify(backgroundSelect));
+            });
+
+            const backgroundButton = document.querySelector('.button-background');
+            backgroundButton.addEventListener('click', () => {
+                if (options.background !== 5) {
+                        options.background ++;
+                }
+                else {
+                    options.background = 0;
+                }
+                localStorage.setItem('options', JSON.stringify(options));
                 changeBackground();
                 playSound('sound-click1');
+    
+                document.querySelector('.button-background').innerHTML = colorNames[options.background];
             })
 
             document.body.addEventListener('keydown', (event) => {
@@ -280,15 +316,28 @@
                     playSound('sound-click1');
                 }
                 else if (event.key === 'b') {
-                    if (backgroundSelect !== 5) {
-                        backgroundSelect ++;
+                    if (options.background !== 5) {
+                        options.background ++;
                     }
                     else {
-                        backgroundSelect = 0;
+                        options.background = 0;
                     }
-                    localStorage.setItem('backgroundSelect', JSON.stringify(backgroundSelect));
+                    localStorage.setItem('options', JSON.stringify(options));
+                    document.querySelector('.button-background').innerHTML = colorNames[options.background];
                     changeBackground();
                     playSound('sound-click1');
+                    
+                }
+                else if (event.key === 'm') {
+                    toggleSound();
+                    playSound('sound-click1');
+                    localStorage.setItem('options', JSON.stringify(options));
+                    if (options.sound) {
+                        document.querySelector('.button-sound-toggle').innerHTML = 'SFX: ON';
+                    }
+                    else {
+                        document.querySelector('.button-sound-toggle').innerHTML = 'SFX: OFF';
+                    }
                 }
             });
 
@@ -422,23 +471,23 @@
             }
 
             function changeBackground() {
-                if (backgroundSelect === 0) {
+                if (options.background === 0) {
                     changeCSS('background-div', 'background-color', 'rgb(87, 0, 130);');
                     changeCSS('background-div', 'animation', 'none');
                 }
-                else if (backgroundSelect === 1) {
+                else if (options.background === 1) {
                     changeCSS('background-div', 'background-color', 'rgb(0, 95, 130);');
                 }
-                else if (backgroundSelect === 2) {
+                else if (options.background === 2) {
                     changeCSS('background-div', 'background-color', 'rgb(130, 0, 95);');
                 }
-                else if (backgroundSelect === 3) {
+                else if (options.background === 3) {
                     changeCSS('background-div', 'background-color', 'rgb(52, 130, 0);');
                 }
-                else if (backgroundSelect === 4) {
+                else if (options.background === 4) {
                     changeCSS('background-div', 'background-color', 'rgb(121, 113, 0);');
                 }
-                else if (backgroundSelect === 5) {
+                else if (options.background === 5) {
                     changeCSS('background-div', 'animation', 'rgb-animation 10s linear infinite;');
                 }
             }
@@ -452,9 +501,19 @@
                 style.innerHTML = `.${className} { ${property}: ${value}; }`;
                 document.head.appendChild(style);
             }
+            function toggleSound() {
+                if (options.sound) {
+                    options.sound = 0;
+                    document.querySelector('.button-sound-toggle').innerHTML = 'SFX: OFF';
+                }
+                else {
+                    options.sound = 0.2;
+                    document.querySelector('.button-sound-toggle').innerHTML = 'SFX: ON';
+                }
+            }
             function playSound(sound) {
                 const clickSound = document.getElementById(sound);
-                clickSound.volume = 0.2;
+                clickSound.volume = options.sound;
                 clickSound.currentTime = 0;
                 clickSound.play();
             }
