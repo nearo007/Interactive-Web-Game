@@ -257,6 +257,12 @@
             autoPlayButton.addEventListener('click', () => {
                 autoPlay()
                 playSound('sound-click1');
+                if (isAutoPlaying) {
+                    document.querySelector('.button-autoplay').innerHTML = 'Stop Playing';
+                }
+                else {
+                    document.querySelector('.button-autoplay').innerHTML = 'Auto Play';
+                }
             });
 
             const speedButton = document.querySelector('.button-speed');
@@ -318,6 +324,13 @@
                 else if (event.key === 'Enter') {
                     autoPlay();
                     playSound('sound-click1');
+                    
+                    if (isAutoPlaying) {
+                    document.querySelector('.button-autoplay').innerHTML = 'Stop Playing';
+                    }
+                    else {
+                        document.querySelector('.button-autoplay').innerHTML = 'Auto Play';
+                    }
                 }
                 else if (event.key === 'b') {
                     if (options.background !== 5) {
