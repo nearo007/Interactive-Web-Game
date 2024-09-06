@@ -1,0 +1,147 @@
+body {
+    color: white;
+    font-family: Arial;
+}
+button {
+    cursor: pointer;
+}
+.background-div {
+    background-color: black;
+    background-image: linear-gradient(to bottom, rgb(0, 0, 0), transparent);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+@keyframes rgb-animation {
+    0% {
+        background-color: rgb(130, 0, 95);
+    }
+    12.5% {
+        background-color: rgb(87, 0, 130);
+    }
+    25% {
+        background-color: rgb(0, 0, 130);
+    }
+    37.5% {
+        background-color: rgb(0, 95, 130);
+    }
+    50% {
+        background-color: rgb(0, 130, 130);
+    }
+    62.5% {
+        background-color: rgb(0, 130, 52);
+    }
+    75% {
+        background-color: rgb(0, 130, 0);
+    }
+    87.5% {
+        background-color: rgb(130, 130, 0);
+    }
+    100% {
+        background-color: rgb(130, 0, 95);
+    }
+}
+.button-sound-toggle {
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin: 15px 5px;
+    font-size: 25px;
+    transition: opacity 0.2s;
+}
+.button-background {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin: 15px 5px;
+    font-size: 25px;
+    transition: opacity 0.2s;
+}
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.titulo {
+    font-size: 60px;
+    font-weight: bold;
+}
+.move-icon {
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+    transition: opacity 0.2s;
+}
+.move-icon:hover {
+    opacity: 0.5;
+}
+.move-icon:active {
+    opacity: 1;
+}
+.button-rock,
+.button-paper,
+.button-scissors {
+    background-color: transparent;
+    border: 2px solid white;
+    padding: 40px;
+    border-radius: 50%;
+    margin: 0 10px 0 10px;
+}
+.button-reset,
+.button-autoplay,
+.button-speed {
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 50px 0 0 0;
+    font-size: 30px;
+    transition: opacity 0.2s;
+}
+.button-reset:hover,
+.button-autoplay:hover,
+.button-speed:hover,
+.button-background:hover,
+.button-sound-toggle:hover {
+    opacity: 0.5;
+}
+.button-reset:active,
+.button-autoplay:active,
+.button-speed:active,
+.button-background:active,
+.button-sound-toggle:active {
+    opacity: 1;
+}
+.player-result-icon {
+    width: 50px;
+}
+.score-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.result-text {
+    font-size: 30px;
+}
+.score-text {
+    font-size: 20px;
+}
